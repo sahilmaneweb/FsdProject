@@ -1,0 +1,67 @@
+<div class="group-header">
+    <h1>Project Groups</h1>
+    <button (click)="openGroupForm()" class="add-btn">+ Add Group</button>
+  </div>
+  
+  <section class="group-table">
+    <div class="table-head">
+      <div>Group ID</div>
+      <div>Batch</div>
+      <div>Project Title</div>
+      <div>Students</div>
+      <div style="text-align: center;">Action</div>
+    </div>
+    <hr />
+    <div *ngFor="let group of groups" class="table-row">
+      <div>{{ group.id }}</div>
+      <div>{{ group.batch }}</div>
+      <div>{{ group.title }}</div>
+      <div>
+        <ul>
+          <li *ngFor="let student of group.students">{{ student }}</li>
+        </ul>
+      </div>
+      <div class="table-btn">
+        <button class="edit-btn" (click)="editGroup(group)">Edit</button>
+        <button class="delete-btn" (click)="deleteGroup(group.id)">Delete</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Group Form Modal -->
+  <section class="form-container" *ngIf="isGroupFormVisible">
+    <div class="form-modal">
+      <div class="form-header">
+        <h1>{{ editingGroup ? 'Update' : 'Create' }} Group</h1>
+        <button class="close-btn" (click)="closeGroupForm()">×</button>
+      </div>
+      <hr />
+      <form (ngSubmit)="submitGroupForm()">
+        <div class="form-group">
+          <label>Batch</label>
+          <select [(ngModel)]="groupForm.batch" name="batch" class="input-field" required>
+            <option value="" disabled>Select Batch</option>
+            <option value="Batch-1">Batch-1</option>
+            <option value="Batch-2">Batch-2</option>
+            <option value="Batch-3">Batch-3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Project Title</label>
+          <input type="text" [(ngModel)]="groupForm.title" name="title" class="input-field" required />
+        </div>
+        <div class="form-group">
+          <label>Project Description</label>
+          <textarea [(ngModel)]="groupForm.description" name="description" class="input-field" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Students (4 Students - comma separated)</label>
+          <input type="text" [(ngModel)]="groupForm.students" name="students" class="input-field" required />
+        </div>
+        <div class="form-group submit-group">
+          <button type="submit" class="submit-btn">{{ editingGroup ? 'Update' : 'Create' }}</button>
+        </div>
+      </form>
+    </div>
+  </section>
+  

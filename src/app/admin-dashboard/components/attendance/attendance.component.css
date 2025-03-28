@@ -1,0 +1,42 @@
+.attendance-container {
+    padding: 20px;
+  }
+  
+  .attendance-header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .attendance-header select,
+  .attendance-header input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .attendance-grid {
+    overflow-x: auto;
+  }
+  
+  .grid-header,
+  .grid-row {
+    display: grid;
+    grid-template-columns: 150px 200px repeat(31, 35px);
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .cell {
+    padding: 6px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 13px;
+  }
+  
+  .day-cell input {
+    width: 16px;
+    height: 16px;
+  }
+  

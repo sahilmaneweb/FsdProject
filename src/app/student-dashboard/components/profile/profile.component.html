@@ -1,0 +1,49 @@
+<div class="profile-header">
+    <h1>Student Profile</h1>
+  </div>
+  
+  <section class="profile-container">
+    <form (ngSubmit)="updateProfile()">
+      <div class="profile-row">
+        <label>UID:</label>
+        <input type="text" [(ngModel)]="student.uid" name="uid" readonly />
+      </div>
+      <div class="profile-row">
+        <label>Full Name:</label>
+        <input type="text" [(ngModel)]="student.name" name="name" required />
+      </div>
+      <div class="profile-row">
+        <label>Email:</label>
+        <input type="email" [(ngModel)]="student.email" name="email" required />
+      </div>
+      <div class="profile-row">
+        <label>Phone:</label>
+        <input type="text" [(ngModel)]="student.phone" name="phone" />
+      </div>
+      <div class="profile-row">
+        <label>Address:</label>
+        <input type="text" [(ngModel)]="student.address" name="address" />
+      </div>
+      <div class="profile-row">
+        <label>Gender:</label>
+        <select [(ngModel)]="student.gender" name="gender">
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="profile-row">
+        <label>Batch:</label>
+        <input type="text" [(ngModel)]="student.batch" name="batch" readonly />
+      </div>
+      <div class="profile-row">
+        <label>Group:</label>
+        <input type="text" [(ngModel)]="student.group" name="group" readonly />
+      </div>
+      <div class="profile-actions">
+        <button type="submit" class="save-btn">Update Profile</button>
+      </div>
+    </form>
+  </section>
+  
