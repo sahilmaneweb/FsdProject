@@ -1,58 +1,46 @@
-.profile-header {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .profile-container {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 25px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-  }
-  
-  .profile-row {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  .profile-row label {
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .profile-row input,
-  .profile-row select {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    outline: none;
-    font-size: 14px;
-  }
-  
-  .profile-row input[readonly] {
-    background-color: #f1f1f1;
-    color: #777;
-  }
-  
-  .profile-actions {
-    text-align: center;
-  }
-  
-  .save-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .save-btn:hover {
-    background-color: #0056b3;
-  }
-  
+.profile-container {
+  width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+input, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  padding: 10px;
+  margin-right: 10px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.container{
+  display:flex;
+  gap: 20px;
+}
+.user-container{
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}

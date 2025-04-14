@@ -1,42 +1,64 @@
 .attendance-container {
-    padding: 20px;
-  }
-  
-  .attendance-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .attendance-header select,
-  .attendance-header input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-  
-  .attendance-grid {
-    overflow-x: auto;
-  }
-  
-  .grid-header,
-  .grid-row {
-    display: grid;
-    grid-template-columns: 150px 200px repeat(31, 35px);
-    gap: 4px;
-    align-items: center;
-  }
-  
-  .cell {
-    padding: 6px;
-    border: 1px solid #ddd;
-    text-align: center;
-    font-size: 13px;
-  }
-  
-  .day-cell input {
-    width: 16px;
-    height: 16px;
-  }
-  
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fefefe;
+}
+
+.attendance-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.attendance-header select,
+.attendance-header input[type="month"],
+.attendance-header button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.attendance-header button {
+  cursor: pointer;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.attendance-header button:hover {
+  background-color: #303f9f;
+}
+
+.attendance-grid {
+  overflow-x: auto;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.grid-header,
+.grid-row {
+  display: grid;
+  grid-template-columns: 100px 150px repeat(auto-fit, minmax(30px, 1fr));
+  align-items: center;
+  text-align: center;
+}
+
+.grid-header .cell {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.cell {
+  padding: 6px;
+  border: 1px solid #ddd;
+}
+
+.day-cell input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+}

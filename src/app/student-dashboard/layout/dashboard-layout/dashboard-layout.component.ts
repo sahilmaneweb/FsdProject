@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-layout.component.css'
 })
 export class DashboardLayoutComponent {
+  constructor (private router:Router) { }
 
+  logOut() {
+    this.router.navigate(['/']);
+  }
 }

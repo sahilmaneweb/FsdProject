@@ -1,67 +1,82 @@
 <div class="group-header">
-    <h1>Project Groups</h1>
-    <button (click)="openGroupForm()" class="add-btn">+ Add Group</button>
+  <h1>Group Management</h1>
+  <button class="add-btn" (click)="openForm()">+ Add Group</button>
+</div>
+
+<section class="group-table">
+  <div class="table-row table-head">
+    <div>Group ID</div>
+    <div>Title | Description</div>
+    <div>Batch</div>
+    <div style="text-align: center;">Action</div>
   </div>
-  
-  <section class="group-table">
-    <div class="table-head">
-      <div>Group ID</div>
-      <div>Batch</div>
-      <div>Project Title</div>
-      <div>Students</div>
-      <div style="text-align: center;">Action</div>
+
+  <hr />
+  <div class="table-row" *ngFor="let group of groups; let i = index">
+    <div>{{ group.groupId }}</div>
+    <div>{{ group.projectTitle }} <br> {{group.projectDescription}} </div>
+    <div>
+      {{group.batch.batchName}}
     </div>
-    <hr />
-    <div *ngFor="let group of groups" class="table-row">
-      <div>{{ group.id }}</div>
-      <div>{{ group.batch }}</div>
-      <div>{{ group.title }}</div>
-      <div>
-        <ul>
-          <li *ngFor="let student of group.students">{{ student }}</li>
-        </ul>
-      </div>
-      <div class="table-btn">
-        <button class="edit-btn" (click)="editGroup(group)">Edit</button>
-        <button class="delete-btn" (click)="deleteGroup(group.id)">Delete</button>
-      </div>
+    <div class="table-actions">
+      <button class="edit-btn" (click)="editGroup(group.groupId)">Edit</button>
+      <button class="delete-btn" (click)="deleteGroup(group.groupId)">Delete</button>
     </div>
-  </section>
-  
-  <!-- Group Form Modal -->
-  <section class="form-container" *ngIf="isGroupFormVisible">
-    <div class="form-modal">
-      <div class="form-header">
-        <h1>{{ editingGroup ? 'Update' : 'Create' }} Group</h1>
-        <button class="close-btn" (click)="closeGroupForm()">×</button>
-      </div>
-      <hr />
-      <form (ngSubmit)="submitGroupForm()">
-        <div class="form-group">
-          <label>Batch</label>
-          <select [(ngModel)]="groupForm.batch" name="batch" class="input-field" required>
-            <option value="" disabled>Select Batch</option>
-            <option value="Batch-1">Batch-1</option>
-            <option value="Batch-2">Batch-2</option>
-            <option value="Batch-3">Batch-3</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Project Title</label>
-          <input type="text" [(ngModel)]="groupForm.title" name="title" class="input-field" required />
-        </div>
-        <div class="form-group">
-          <label>Project Description</label>
-          <textarea [(ngModel)]="groupForm.description" name="description" class="input-field" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Students (4 Students - comma separated)</label>
-          <input type="text" [(ngModel)]="groupForm.students" name="students" class="input-field" required />
-        </div>
-        <div class="form-group submit-group">
-          <button type="submit" class="submit-btn">{{ editingGroup ? 'Update' : 'Create' }}</button>
-        </div>
-      </form>
+  </div>
+</section>
+
+<section class="form-container" *ngIf="isFormVisible">
+  <div class="form-modal">
+    <div class="form-header">
+      <h2>{{ editingGroup !== null ? 'Edit Group' : 'Add Group' }}</h2>
+      <button class="close-btn" (click)="closeForm()">×</button>
     </div>
-  </section>
-  
+
+    <form [formGroup]="groupForm" (ngSubmit)="submitForm()">
+      
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" formControlName="projectTitle" class="input-field" placeholder="Enter Title" />
+      </div>
+      
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" formControlName="projectDescription" class="input-field" placeholder="Enter Description" />
+      </div>
+      
+      <div class="form-group">
+        <label>Batch</label>
+        <select  formControlName="batchName" class="input-field">
+          <!-- <option *ngFor="let batch of batch" [value]="batch.batchname">
+              {{ batch.batchname }} - {{ batch.venue }}
+            </option> -->
+          <option value="" disabled>Select Batch</option>
+            @for (item of batch; track $index) {
+              <option selected [value]="item.batchName" [selected]="editingGroup && editingGroup.batchName === item.batchName">
+                  {{ item?.batchName }} - {{ item?.venue }}
+              </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label>Select Student :</label>
+      <div class="student-list-box" *ngIf="students.length > 0">
+        <div *ngFor="let student of students" class="student-list">
+          <input type="checkbox" [value]="student.uid" (change)="toggleStudentSelection(student.uid)" [checked]="isStudentSelected(student.uid)" /> {{student.uid}} - {{ student.name }}
+        </div>
+      </div>
+      <div *ngIf="students.length === 0" class="no-students">
+        <p>No Students in this batch to show</p>
+      </div>
+      
+    </div>
+
+      <div class="form-group submit-group">
+        <button type="submit" class="submit-btn" [disabled]="groupForm.invalid">
+          {{ editingGroup !== null ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

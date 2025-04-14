@@ -7,7 +7,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { GroupComponent } from './components/group/group.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CoreModule } from '../core/core.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { StudentDashboardServiceService } from './services/student-dashboard-service.service';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     StudentDashboardRoutingModule,
     CoreModule,
-    FormsModule
-  ]
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers:[provideHttpClient(), StudentDashboardServiceService]
 })
 export class StudentDashboardModule { }

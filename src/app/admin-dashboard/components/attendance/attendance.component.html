@@ -1,38 +1,34 @@
-<div class="attendance-container">
-    <div class="attendance-header">
-      <select [(ngModel)]="selectedBatch">
-        <option value="" disabled>Select Batch</option>
-        <option *ngFor="let batch of batches" [value]="batch">{{ batch }}</option>
-      </select>
-  
-      <input type="month" [(ngModel)]="selectedMonth" />
+<div class="attendance-container" [formGroup]="form">
+  <div class="attendance-header">
+    <select>
+      <option value="" disabled selected>Select Batch</option>
+      <option (click)="OnBatchChange(batch.batchName)" *ngFor="let batch of batches" [value]="batch.batchName">{{ batch.batchName }}</option>
+    </select>
+
+    <input type="month" (change)="onMonthChange($event)" />
+
+    <button (click)="loadAttendance()">Load</button>
+    <button (click)="saveAttendance()">Save</button>
+    <button (click)="clearAttendance()">Clear</button>
+  </div>
+
+  <div *ngIf="students.length && days.length" class="attendance-grid">
+    <div class="grid-header">
+      <div class="cell uid">UID</div>
+      <div class="cell name">Name</div>
+      <div class="cell day-cell" *ngFor="let day of days; trackBy: trackByDay">{{ day }}</div>
     </div>
-  
-    <div class="attendance-grid" *ngIf="selectedBatch && selectedMonth">
-      <div class="grid-header">
-        <div class="cell">UID</div>
-        <div class="cell">Name</div>
-        <div
-          class="cell day-cell"
-          *ngFor="let day of days"
-        >
-          {{ day }}
-        </div>
-      </div>
-  
-      <div class="grid-row" *ngFor="let student of students">
-        <div class="cell">{{ student.uid }}</div>
-        <div class="cell">{{ student.name }}</div>
-        <div
-          class="cell day-cell"
-          *ngFor="let day of days"
-        >
-          <input
-            type="checkbox"
-            [(ngModel)]="student.attendance[day]"
-          />
-        </div>
+
+    <div class="grid-row" *ngFor="let student of students; trackBy: trackByStudent">
+      <div class="cell uid">{{ student.uid }}</div>
+      <div class="cell name">{{ student.name }}</div>
+
+      <div class="cell day-cell" *ngFor="let day of days; trackBy: trackByDay">
+        <input
+          type="checkbox"
+          [formControlName]="student.id + '_' + day"
+        />
       </div>
     </div>
   </div>
-  
+</div>

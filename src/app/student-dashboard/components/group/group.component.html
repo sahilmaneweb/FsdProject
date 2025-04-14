@@ -1,8 +1,8 @@
 <div class="group-container">
     <!-- Group and Batch Info -->
     <div class="group-info">
-      <h2>Group {{ groupNumber }}</h2>
-      <p>Batch: {{ batchNumber }}</p>
+      <h2>Group {{ groupId }}</h2>
+      <p>Batch: {{ batchName }}</p>
     </div>
   
     <!-- Students Grid -->
@@ -17,13 +17,13 @@
   
     <!-- Project Details -->
     <div class="project-info">
-      <h3>Project Title: {{ project.title }}</h3>
-      <p>{{ project.description }}</p>
+      <h3>Project Title: {{ project.projectTitle }}</h3>
+      <p>{{ project.projectDescription }}</p>
     </div>
   
     <!-- Mentors Table -->
     <div class="mentors-section">
-      <h3>Mentors (Batch {{ batchNumber }})</h3>
+      <h3>Mentors (Batch {{ batchName }})</h3>
       <table>
         <thead>
           <tr>

@@ -1,4 +1,13 @@
-<app-header-dashboard></app-header-dashboard>
+<div class="navbar">
+    <div class="logo">
+        FSD-Admin
+    </div>
+    <div>
+        <button (click)="logOut()" type="button">
+            Log Out
+        </button>
+    </div>
+</div>
 <ul class="admin-navbar">
     <li>
         <a routerLink="student" routerLinkActive="active">Student</a>

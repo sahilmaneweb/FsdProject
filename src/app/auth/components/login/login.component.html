@@ -1,10 +1,26 @@
 <div class="container">
     <div class="card">
       <h2>Login</h2>
-      <form>
-        <input type="text" id="username" name="username" placeholder="Username" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input type="text" formControlName="username" placeholder="UID" required>
+        <ul class="error-message">
+          <li *ngIf="loginForm.get('uid')?.hasError('required') && loginForm.get('uid')?.touched">
+            UID is required.
+          </li>
+          <li *ngIf="loginForm.get('uid')?.hasError('minlength') && loginForm.get('uid')?.touched">
+            UID must be at least 3 characters long.
+          </li>
+        </ul>
+        <input type="password" formControlName="password" placeholder="Password" required>
+        <ul class="error-message">
+          <li *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            Password is required.
+          </li>
+          <li *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">
+            Password must be at least 6 characters long.
+          </li>
+        </ul>
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
       </form>
     </div>
   </div>

@@ -1,78 +1,83 @@
 <div class="student-header">
-    <h1>Student Management</h1>
-    <button class="add-btn" (click)="openForm()">+ Add Student</button>
-  </div>
-  
-  <section class="student-table">
-    <div class="table-row table-head">
+  <h1>Student Management</h1>
+  <button class="add-btn" (click)="openForm()">+ Add Student</button>
+</div>
+
+<section class="student-table">
+  <div class="table-row table-head">
       <div>UID</div>
       <div>Name</div>
       <div>Email</div>
       <div>Batch</div>
-      <div>Action</div>
-    </div>
-    <hr />
-    <div class="table-row" *ngFor="let student of students">
+      <div style="text-align: center;">Actions</div>
+  </div>
+  <hr />
+  <div class="table-row" *ngFor="let student of students">
       <div>{{ student.uid }}</div>
       <div>{{ student.name }}</div>
       <div>{{ student.email }}</div>
-      <div>{{ student.batch }}</div>
+      <div>{{ student.batch.batchName }}</div>
       <div class="table-actions">
-        <button class="edit-btn">Edit</button>
-        <button class="delete-btn">Delete</button>
+          <button class="edit-btn" (click)="openForm(student)">Edit</button>
+          <button class="delete-btn" (click)="onDelete(student.uid)">Delete</button>
       </div>
-    </div>
-  </section>
-  
-  <section class="form-container" *ngIf="isFormVisible">
-    <div class="form-modal">
+  </div>
+</section>
+
+<!-- Modal Form -->
+<section class="form-container" *ngIf="isFormVisible">
+  <div class="form-modal">
       <div class="form-header">
-        <h2>Add Student</h2>
-        <button class="close-btn" (click)="closeForm()">×</button>
+          <h2>{{ editingStudent ? 'Edit Student' : 'Add Student' }}</h2>
+          <button class="close-btn" (click)="closeForm()">×</button>
       </div>
-      <form class="student-form">
-        <div class="form-group">
-          <label>Student UID</label>
-          <input type="text" placeholder="Enter UID" class="input-field" required />
-        </div>
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Enter Name" class="input-field" required />
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="Enter Email" class="input-field" required />
-        </div>
-        <div class="form-group">
-          <label>Contact</label>
-          <input type="tel" placeholder="Enter Contact No." class="input-field" required />
-        </div>
-        <div class="form-group">
-          <label>Gender</label>
-          <select class="input-field" required>
-            <option disabled selected>Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Address</label>
-          <textarea rows="3" placeholder="Enter Address" class="input-field" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Batch</label>
-          <select class="input-field" required>
-            <option disabled selected>Select Batch</option>
-            <option>Batch - 1</option>
-            <option>Batch - 2</option>
-            <option>Batch - 3</option>
-          </select>
-        </div>
-        <div class="form-group submit-group">
-          <button type="submit" class="submit-btn">Create</button>
-        </div>
+      
+      <form class="student-form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+              <label>Name</label>
+              <input type="text" formControlName="name" placeholder="Enter Name" class="input-field" />
+          </div>
+
+          <div class="form-group">
+              <label>Email</label>
+              <input type="email" formControlName="email" placeholder="Enter Email" class="input-field" />
+          </div>
+
+          <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" formControlName="phone" placeholder="Enter Phone" class="input-field" />
+          </div>
+
+          <div class="form-group">
+              <label>Gender</label>
+              <select formControlName="gender" class="input-field">
+                  <option value="" disabled>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label>Batch</label>
+              <select formControlName="batchName" class="input-field" >
+                <!-- <option *ngFor="let batch of batch" [value]="batch.batchname">
+                    {{ batch.batchname }} - {{ batch.venue }}
+                  </option> -->
+                  @for (item of batch; track $index) {
+                    <option [value]="item.batchName" [selected]="editingStudent && editingStudent.batch.batchName === item.batchName">
+                        {{ item.batchName }} - {{ item.venue }}
+                    </option>
+                  }
+              </select>
+          </div>
+
+
+
+          <div class="form-group submit-group">
+              <button type="submit" class="submit-btn" [disabled]="studentForm.invalid">
+                  {{ editingStudent ? 'Update' : 'Create' }}
+              </button>
+          </div>
       </form>
-    </div>
-  </section>
-  
+  </div>
+</section>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { StudentDashboardServiceService } from '../../services/student-dashboard-service.service';
 
 @Component({
   selector: 'app-group',
@@ -6,25 +7,35 @@ import { Component } from '@angular/core';
   templateUrl: './group.component.html',
   styleUrl: './group.component.css'
 })
-export class GroupComponent {
-  groupNumber = 3;
-  batchNumber = 'Batch 1';
+export class GroupComponent implements OnInit {
+  uid:string ="";
+  groupId:string ="";
+  batchName:string = '';
+  students:any[] = [ ];
 
-  students = [
-    { uid: 'S101', name: 'Sahil Dilip Mane', contact: '9876543210', email: 'sahil@example.com' },
-    { uid: 'S102', name: 'Sudhir Vedprakash Maurya', contact: '9876512340', email: 'sudhir@example.com' },
-    { uid: 'S103', name: 'Sakshi Vijay Mashalkar', contact: '9876523456', email: 'sakshi@example.com' },
-    { uid: 'S104', name: 'Aarya Kumar', contact: '9876598765', email: 'aarya@example.com' },
-  ];
+  project:any = { };
 
-  project = {
-    title: 'Smart Attendance System',
-    description: 'A system to manage and track student attendance digitally with reporting features.',
-  };
+  mentors:any[] = [ ];
 
-  mentors = [
-    { name: 'Monisha Linkesh', contact: '9988776655', email: 'monisha@college.com', department: 'Computer' },
-    { name: 'Purvi Sankhe', contact: '8877665544', email: 'purvi@college.com', department: 'IT' },
-    { name: 'Apeksha Waghmare', contact: '7766554433', email: 'apeksha@college.com', department: 'Computer' },
-  ];
+  constructor(private studentDashboard:StudentDashboardServiceService){}
+
+  ngOnInit(): void {
+      this.uid = "S1051423";
+      this.loadGroup();
+  }
+
+  loadGroup(){
+    this.studentDashboard.getGroupByStudent(this.uid).subscribe((res:any)=>{
+      const group = res.data;
+      this.groupId = group.groupId;
+      this.batchName = group.batchName;
+      this.students = group.students;
+      this.project = {
+        projectTitle: group.projectTitle,
+        projectDescription: group.projectDescription,
+      };
+      this.mentors = group.mentors;
+    })
+    console.log("Group loaded successfully...");
+  }
 }

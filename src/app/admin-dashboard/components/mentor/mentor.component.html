@@ -1,80 +1,90 @@
-<section class="mentor-form-container" *ngIf="isMentorFormVisible">
-    <div class="mentor-form-modal">
-      <div class="mentor-form-header">
-        <h1>Create New Mentor</h1>
-        <button class="mentor-close-btn" (click)="closeMentorForm()">×</button>
-      </div>
-      <hr />
-      <form class="mentor-form">
-        <div class="mentor-form-group">
-          <label for="mentor-name">Mentor Name</label>
-          <input type="text" id="mentor-name" class="mentor-input" placeholder="Enter Mentor Name" required />
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-contact">Contact No.</label>
-          <input type="tel" id="mentor-contact" class="mentor-input" placeholder="Enter Contact Number" required />
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-email">Email</label>
-          <input type="email" id="mentor-email" class="mentor-input" placeholder="Enter Email" required />
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-gender">Gender</label>
-          <select id="mentor-gender" class="mentor-input" required>
-            <option value="" disabled selected>Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-batch">Batch</label>
-          <select id="mentor-batch" class="mentor-input" required>
-            <option value="" disabled selected>Select Batch</option>
-            <option value="batch-1">Batch - 1</option>
-            <option value="batch-2">Batch - 2</option>
-            <option value="batch-3">Batch - 3</option>
-          </select>
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-dept">Department</label>
-          <input type="text" id="mentor-dept" class="mentor-input" placeholder="Enter Department" required />
-        </div>
-        <div class="mentor-form-group">
-          <label for="mentor-special">Specialization</label>
-          <input type="text" id="mentor-special" class="mentor-input" placeholder="Enter Specialization" required />
-        </div>
-        <div class="mentor-form-group submit-group">
-          <button type="submit" class="mentor-submit-btn">Create</button>
-        </div>
-      </form>
-    </div>
-  </section>
-  
-  <!-- Mentor Table -->
-  <div class="mentor-header">
-    <h1>Mentors</h1>
-    <button type="button" (click)="openMentorForm()" class="mentor-add-btn">+ Add Mentor</button>
-  </div>
-  
-  <section class="mentor-table">
-    <div class="mentor-table-head">
+<div class="mentor-header">
+  <h1>Mentor Management</h1>
+  <button class="add-btn" (click)="openForm()">+ Add Mentor</button>
+</div>
+
+<section class="mentor-table">
+  <div class="table-row table-head">
       <div>Mentor ID</div>
       <div>Name</div>
       <div>Email</div>
       <div>Batch</div>
-      <div style="text-align: center;">Action</div>
-    </div>
-    <hr />
-    <div class="mentor-table-head" *ngFor="let mentor of mentors">
-      <div>{{ mentor.id }}</div>
+      <div>Action</div>
+  </div>
+  <hr />
+  <div class="table-row" *ngFor="let mentor of mentors; let i = index">
+      <div>{{ mentor.mentorId }}</div>
       <div>{{ mentor.name }}</div>
       <div>{{ mentor.email }}</div>
-      <div>{{ mentor.batch }}</div>
-      <div class="mentor-table-btn">
-        <button type="button" class="mentor-edit-btn">Edit</button>
-        <button type="button" class="mentor-delete-btn">Delete</button>
+      <div>{{ mentor.batch.batchName }}</div>
+      <div class="table-actions">
+          <button class="edit-btn" (click)="onEdit(mentor)">Edit</button>
+          <button class="delete-btn" (click)="onDelete(mentor.mentorId)">Delete</button>
       </div>
-    </div>
-  </section>
-  
+  </div>
+</section>
+
+<section class="form-container" *ngIf="isFormVisible">
+  <div class="form-modal">
+      <div class="form-header">
+          <h2>{{ editingMentor ? 'Edit Mentor' : 'Add Mentor' }}</h2>
+          <button class="close-btn" (click)="closeForm()">×</button>
+      </div>
+
+      <form [formGroup]="mentorForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+              <label>Name</label>
+              <input type="text" formControlName="name" class="input-field" placeholder="Enter Name" />
+          </div>
+
+          <div class="form-group">
+              <label>Email</label>
+              <input type="email" formControlName="email" class="input-field" placeholder="Enter Email" />
+          </div>
+
+          <div class="form-group">
+              <label>Contact</label>
+              <input type="tel" formControlName="contact" class="input-field" placeholder="Enter Contact No." />
+          </div>
+
+          <div class="form-group">
+              <label>Gender</label>
+              <select formControlName="gender" class="input-field">
+                  <option value="" disabled>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+            <label>Batch</label>
+            <select formControlName="batchName" class="input-field" >
+              <!-- <option *ngFor="let batch of batch" [value]="batch.batchname">
+                  {{ batch.batchname }} - {{ batch.venue }}
+                </option> -->
+                @for (item of batch; track $index) {
+                  <option [value]="item.batchName" [selected]="editingMentor && editingMentor.batch.batchName === item.batchName">
+                      {{ item.batchName }} - {{ item.venue }}
+                  </option>
+                }
+            </select>
+        </div>
+
+          <div class="form-group">
+              <label>Department</label>
+              <input type="text" formControlName="department" class="input-field" placeholder="Enter Department" />
+          </div>
+
+          <div class="form-group">
+              <label>Specialization</label>
+              <input type="text" formControlName="specialization" class="input-field" placeholder="Enter Specialization" />
+          </div>
+
+          <div class="form-group submit-group">
+              <button type="submit" class="submit-btn" [disabled]="mentorForm.invalid">
+                  {{ editingMentor ? 'Update' : 'Create' }}
+              </button>
+          </div>
+      </form>
+  </div>
+</section>

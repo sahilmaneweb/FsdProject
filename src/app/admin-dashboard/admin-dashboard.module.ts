@@ -8,7 +8,9 @@ import { MentorComponent } from './components/mentor/mentor.component';
 import { GroupComponent } from './components/group/group.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CoreModule } from '../core/core.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
+import { AdminDashboardService } from './services/admin-dashboard.service';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     AdminDashboardRoutingModule,
     CoreModule,
-    FormsModule
-  ]
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [provideHttpClient(), AdminDashboardService],
 })
 export class AdminDashboardModule { }
