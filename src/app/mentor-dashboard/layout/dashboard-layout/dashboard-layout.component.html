@@ -1,1 +1,28 @@
-<p>dashboard-layout works!</p>
+<div class="navbar">
+    <div class="logo">
+        FSD-Mentor
+    </div>
+    <div>
+        <button (click)="logOut()" type="button">
+            Log Out
+        </button>
+    </div>
+</div>
+<ul class="admin-navbar">
+    <li>
+        <a routerLink="profile" routerLinkActive="active">Profile</a>
+    </li>
+    <li>
+        <a routerLink="students" routerLinkActive="active">Students</a>
+    </li>
+    <li>
+        <a routerLink="group" routerLinkActive="active">Group</a>
+    </li>
+    <li>
+        <a routerLink="attendance" routerLinkActive="active">Attendance</a>
+    </li>
+    
+</ul>
+<div class="box">
+    <router-outlet></router-outlet>
+</div>

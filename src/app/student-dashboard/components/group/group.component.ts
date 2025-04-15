@@ -20,7 +20,7 @@ export class GroupComponent implements OnInit {
   constructor(private studentDashboard:StudentDashboardServiceService){}
 
   ngOnInit(): void {
-      this.uid = "S1051423";
+      this.uid = localStorage.getItem('username') || '';
       this.loadGroup();
   }
 

@@ -1,1 +1,23 @@
-<p>students works!</p>
+<div class="mentors-section">
+    <h3>Students</h3>
+    <table>
+      <thead>
+        <tr>
+            <th>Uid</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Batch</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students">
+          <td>{{student?.uid}}</td>
+          <td>{{student?.name}}</td>
+          <td>{{student?.phone}}</td>
+          <td>{{student?.email}}</td>
+          <td>{{student?.batch.batchName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

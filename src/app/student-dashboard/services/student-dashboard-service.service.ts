@@ -10,7 +10,7 @@ export class StudentDashboardServiceService {
   constructor(private httpClient: HttpClient) { }
 
   getStudentProfile(uid: string) {
-    return this.httpClient.get(this.apiUrl + "api/student/profile/" + uid);
+    return this.httpClient.get(this.apiUrl + "api/student/profile/" + uid, );
   }
 
   updateProfile(payload: any, uid: string) {

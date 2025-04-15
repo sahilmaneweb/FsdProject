@@ -1,152 +1,97 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminDashboardService } from '../../services/admin-dashboard.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-attendance',
-  standalone: false,
   templateUrl: './attendance.component.html',
+  standalone: false,
   styleUrls: ['./attendance.component.css']
 })
 export class AttendanceComponent implements OnInit {
-  form: FormGroup = new FormGroup({});
-  students: any[] = [];
-  days: number[] = [];
+  attendanceForm!: FormGroup;
+  batches: any[] = []; // Fill from backend
   selectedBatch: string = '';
-  selectedMonth: string = '';
-  batches: any[] = [];
+  selectedMonth: string = ''; // format YYYY-MM
+  studentsAttendance: any[] = []; // Each element will have: uid, name, attendanceByDay
+
+  daysInMonth: number[] = [];
+  year!: number;
+  month!: number;
 
   constructor(private fb: FormBuilder, private service: AdminDashboardService) {}
 
   ngOnInit(): void {
-    this.service.getBatches().subscribe((res: any) => {
-      this.batches = res.data;
+    this.attendanceForm = this.fb.group({
+      batch: [''],
+      month: ['']
     });
-    this.form = this.fb.group({});
+
+    // Load batch list from backend
+    this.service.getBatches().subscribe((batches: any) => {
+      this.batches = batches?.data;
+    });
   }
 
+  onLoad() {
+    const { batch, month } = this.attendanceForm.value;
+    if (!batch || !month) return;
 
-OnBatchChange(batch:string){
-  this.selectedBatch = batch;
-  console.log(this.selectedBatch);
-}
-onMonthChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.selectedMonth = input.value;
-    console.log(this.selectedMonth);
-  }
+    this.selectedBatch = batch;
+    this.selectedMonth = month;
+    console.log(month);
+    const [year, monthNum] = month.split('-').map(Number);
+    this.year = year;
+    this.month = monthNum;
+    const days = new Date(year, monthNum, 0).getDate();
+    this.daysInMonth = Array.from({ length: days }, (_, i) => i + 1);
 
-  loadAttendance():void {
-    console.log(this.selectedBatch, this.selectedMonth);
-    if (!this.selectedBatch || !this.selectedMonth) return;
-    const [year, month] = this.selectedMonth.split('-').map(Number); 
-    const daysInMonth = new Date(year, month, 0).getDate();
-    this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-    this.service.getStudentsByBatch(this.selectedBatch).subscribe((res:any)=>{
-      this.students = res.data;
-      this.form = this.fb.group({});
-      for (let student of this.students) {
-        for (let day of this.days) {
-          const controlName = `${student.id}_${day}`;
-          this.form.addControl(controlName, new FormControl(false));
-        }
-      }
-      console.log(this.form);
-
-      this.service.getAttendance(this.selectedBatch, +this.selectedMonth).subscribe((records: any[]) => {
-        for (let record of records) {
-          const day = new Date(record.date).getDate();
-          const control = this.form.get(`${record.student.id}_${day}`);
-          if (control) control.setValue(record.status === 'PRESENT');
-        }
-      });
-    })
-  }
-
-  saveAttendance(){
-    const list: any[] = [];
-    for (let student of this.students) {
-      for (let day of this.days) {
-        const controlName = `${student.id}_${day}`;
-        const isPresent = this.form.get(controlName)?.value;
-        const date = `${this.selectedMonth}-${String(day).padStart(2, '0')}`;
-        list.push({
-          studentId: student.uid,
-          date,
-          status: isPresent ? 'PRESENT' : 'ABSENT',
+    this.service.getAttendanceByBatchAndMonth(batch, `${month}-01`).subscribe((response: any) => {
+      // Response is {uid: [Attendance]}, transform into frontend model
+      this.studentsAttendance = Object.entries(response.data).map(([uid, records]: any) => {
+        const studentName = records[0]?.student?.name || 'Unknown';
+        const attendanceByDay: Record<number, 'PRESENT' | 'ABSENT'> = {};
+        records.forEach((r: any) => {
+          const day = new Date(r.date).getDate();
+          attendanceByDay[day] = r.status;
         });
-      }
-    }
-    this.service.saveAttendance(list).subscribe(() => alert('Attendance Saved'));
+
+        return { uid, name: studentName, attendanceByDay };
+      });
+    });
   }
 
-  clearAttendance(): void {
-    for (let control in this.form.controls) {
-      this.form.get(control)?.setValue(false);
-    }
+  toggleAttendance(student: any, day: number) {
+    const current = student.attendanceByDay[day];
+    student.attendanceByDay[day] = current === 'PRESENT' ? 'ABSENT' : 'PRESENT';
   }
-  // onBatchChange(event: Event): void {
-  //   const select = event.target as HTMLSelectElement;
-  //   this.selectedBatch = select.value;
-  // }
 
-  // onMonthChange(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   this.selectedMonth = input.value;
-  // }
+  onClear() {
+    this.studentsAttendance.forEach(student => {
+      this.daysInMonth.forEach(day => {
+        student.attendanceByDay[day] = 'ABSENT';
+      });
+    });
+  }
 
-  // loadAttendance(): void {
-  //   if (!this.selectedBatch || !this.selectedMonth) return;
+  onSave() {
+    const attendanceList: any[] = [];
 
-  //   const [year, month] = this.selectedMonth.split('-').map(Number);
-  //   const daysInMonth = new Date(year, month, 0).getDate();
-  //   this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    this.studentsAttendance.forEach(student => {
+      this.daysInMonth.forEach(day => {
+        const date = formatDate(new Date(this.year, this.month - 1, day), 'yyyy-MM-dd', 'en');
+        const status = student.attendanceByDay[day] || 'ABSENT';
+        attendanceList.push({
+          uid: student.uid,
+          date,
+          status
+        });
+      });
+    });
 
-  //   this.service.getStudentsByBatch(this.selectedBatch).subscribe((students:any) => {
-  //     this.students = students.data;
-
-  //     this.form = this.fb.group({});
-  //     for (let student of students) {
-  //       for (let day of this.days) {
-  //         const controlName = `${student.id}_${day}`;
-  //         this.form.addControl(controlName, new FormControl(false));
-  //       }
-  //     }
-
-  //     this.service.getAttendance(this.selectedBatch, +this.selectedMonth).subscribe((records: any[]) => {
-  //       for (let record of records) {
-  //         const day = new Date(record.date).getDate();
-  //         const control = this.form.get(`${record.student.id}_${day}`);
-  //         if (control) control.setValue(record.status === 'PRESENT');
-  //       }
-  //     });
-  //   });
-  // }
-
-  // saveAttendance(): void {
-  //   const list: any[] = [];
-  //   for (let student of this.students) {
-  //     for (let day of this.days) {
-  //       const controlName = `${student.id}_${day}`;
-  //       const isPresent = this.form.get(controlName)?.value;
-  //       const date = `${this.selectedMonth}-${String(day).padStart(2, '0')}`;
-  //       list.push({
-  //         studentId: student.uid,
-  //         date,
-  //         status: isPresent ? 'PRESENT' : 'ABSENT',
-  //       });
-  //     }
-  //   }
-  //   this.service.saveAttendance(list).subscribe(() => alert('Attendance Saved'));
-  // }
-
-  // clearAttendance(): void {
-  //   for (let control in this.form.controls) {
-  //     this.form.get(control)?.setValue(false);
-  //   }
-  // }
-
-  trackByStudent = (_: number, item: any) => item.id;
-  trackByDay = (_: number, item: number) => item;
+    this.service.markAttendance(attendanceList).subscribe(res => {
+      alert('Attendance saved successfully!');
+    });
+  }
 }

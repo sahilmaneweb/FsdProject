@@ -8,8 +8,9 @@ import { GroupComponent } from './components/group/group.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CoreModule } from '../core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { StudentDashboardServiceService } from './services/student-dashboard-service.service';
+import { interceptors } from '../shared/interceptor';
 
 
 @NgModule({
@@ -26,6 +27,6 @@ import { StudentDashboardServiceService } from './services/student-dashboard-ser
     FormsModule,
     ReactiveFormsModule
   ],
-  providers:[provideHttpClient(), StudentDashboardServiceService]
+  providers:[provideHttpClient(withInterceptors(interceptors)), StudentDashboardServiceService]
 })
 export class StudentDashboardModule { }

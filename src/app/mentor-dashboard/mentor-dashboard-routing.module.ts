@@ -4,6 +4,7 @@ import { DashboardLayoutComponent } from './layout/dashboard-layout/dashboard-la
 import { ProfileComponent } from './components/profile/profile.component';
 import { StudentsComponent } from './components/students/students.component';
 import { GroupComponent } from './components/group/group.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 const routes: Routes = [{
   path:'',
@@ -23,7 +24,7 @@ const routes: Routes = [{
     },
     {
       path: 'attendance',
-      component: GroupComponent
+      component: AttendanceComponent
     }
   ]
 }];

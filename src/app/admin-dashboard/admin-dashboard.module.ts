@@ -9,8 +9,9 @@ import { GroupComponent } from './components/group/group.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CoreModule } from '../core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AdminDashboardService } from './services/admin-dashboard.service';
+import { interceptors } from '../shared/interceptor';
 
 
 @NgModule({
@@ -28,6 +29,6 @@ import { AdminDashboardService } from './services/admin-dashboard.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [provideHttpClient(), AdminDashboardService],
+  providers: [provideHttpClient(withInterceptors(interceptors)), AdminDashboardService],
 })
 export class AdminDashboardModule { }

@@ -1,1 +1,23 @@
-<p>group works!</p>
+<div class="mentors-section">
+    <h3>Groups</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>GroupId</th>
+          <th>Project Title</th>
+          <th>ProjectDescription</th>
+          <th>Batch</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups">
+          <td>{{group?.groupId}}</td>
+          <td>{{group?.projectTitle}}</td>
+          <td>{{group?.projectDescription}}</td>
+          <td>{{group?.batch.batchName}}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>

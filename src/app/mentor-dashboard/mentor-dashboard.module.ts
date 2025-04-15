@@ -7,6 +7,10 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { StudentsComponent } from './components/students/students.component';
 import { GroupComponent } from './components/group/group.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { interceptors } from '../shared/interceptor';
+import { MentorServiceService } from './services/mentor-service.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,7 +23,10 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
   ],
   imports: [
     CommonModule,
-    MentorDashboardRoutingModule
-  ]
+    MentorDashboardRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
+  providers: [provideHttpClient(withInterceptors(interceptors)), MentorServiceService]
 })
 export class MentorDashboardModule { }

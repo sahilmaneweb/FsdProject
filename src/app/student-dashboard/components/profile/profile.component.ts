@@ -36,10 +36,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
       this.loadProfileData();
       this.userForm.get('username')?.setValue(this.uid);
+      this.profileForm.disable();
   }
 
   loadProfileData(){
-    this.uid = "S1051423";
+    this.uid = localStorage.getItem('username') || '';
     this.studentDashboard.getStudentProfile(this.uid).subscribe((data:any) => {
       this.studentProfile = data.data;
       this.profileForm.patchValue(

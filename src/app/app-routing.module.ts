@@ -7,6 +7,9 @@ const routes: Routes = [{
 },{
   path:'admin',
   loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
+},{
+  path: 'mentor',
+  loadChildren: () => import('./mentor-dashboard/mentor-dashboard.module').then(m => m.MentorDashboardModule)
 },
 {
   path: '',

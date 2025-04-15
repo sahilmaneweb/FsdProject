@@ -85,11 +85,17 @@ export class AdminDashboardService {
     return this.httpClient.get(this.apiUrl+`api/student/${batch}`);
   }
 
-  getAttendance(batch: string, month: number):Observable<any>  {
-    return this.httpClient.get(this.apiUrl+`api/attendance/get?batch=${batch}&month=${month}`);
+  getAttendanceByBatchAndMonth(batchName: string, date: string): Observable<any> {
+    return this.httpClient.get(`${this.apiUrl}api/attendance/${batchName}/${date}`);
   }
 
-  saveAttendance(data: any[]):Observable<any>  {
-    return this.httpClient.post(this.apiUrl+`api/attendance/mark`, data);
+  // ✅ Save or update attendance
+  markAttendance(attendanceList: any[]): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}api/attendance/mark`, attendanceList);
+  }
+
+  // ⚠️ Clear attendance for the month (Optional - implement in backend)
+  clearAttendance(batchName: string, date: string): Observable<any> {
+    return this.httpClient.delete(`${this.apiUrl}/clear/${batchName}/${date}`);
   }
 }
