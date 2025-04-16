@@ -1,30 +1,49 @@
 .mentors-section {
-    margin-top: 20px;
-  }
-  
-  .mentors-section table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-  
-  .mentors-section th,
-  .mentors-section td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .mentors-section th {
-    background-color: #0056b3;
-    color: white;
-    font-weight: 600;
-  }
-  
-  .mentors-section tr:hover {
-    background-color: #f8f9fa;
-  }
-  
+  margin-top: 30px; /* Increased top margin for better separation */
+}
+
+.mentors-section h3 {
+  color: #333;
+  font-weight: bold;
+  font-size: 1.25em; /* Slightly larger heading */
+  margin-bottom: 15px;
+}
+
+.mentors-section table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px; /* More rounded corners */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Enhanced shadow */
+  border: 1px solid #e0e0e0; /* Subtle border */
+}
+
+.mentors-section th,
+.mentors-section td {
+  padding: 14px 16px; /* Increased padding */
+  text-align: left;
+  border-bottom: 1px solid #eee; /* Lighter bottom border */
+  font-size: 0.95em; /* Slightly smaller font for content */
+}
+
+.mentors-section th {
+  background-color: #007bff; /* Primary blue color */
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase; /* Uppercase for header */
+  letter-spacing: 0.02em; /* Slight letter spacing */
+}
+
+.mentors-section tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+.mentors-section tbody tr:hover {
+  background-color: #f0f8ff; /* Light blue on hover */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.mentors-section td:first-child {
+  font-weight: 500; /* Slightly emphasize the name */
+}

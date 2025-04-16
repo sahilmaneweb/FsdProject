@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     this.userForm = this.fb.group({
       username: [{value:'',disabled:true}, Validators.required],
       password: ['', [Validators.required, Validators.minLength(10)]],
-      newPassword: ['', Validators.required,Validators.minLength(10)],
+      newPassword: ['', [Validators.required,Validators.minLength(10)]],
     })
   }
 
@@ -91,10 +91,13 @@ export class ProfileComponent implements OnInit {
     }
     
     changePassword(){
+      const payload = this.userForm.value;
+      payload['username'] = this.uid;
       if(this.userForm.valid){
-        this.studentDashboard.changePassword(this.userForm.value).subscribe((data:any) => {
-          alert('Password changed successfully!');
+        this.studentDashboard.changePassword(payload).subscribe((data:any) => {
+          alert("Passwor dchanged successfully...");
           this.userForm.reset();
+          this.userForm.get('username')?.setValue(this.uid);
         }
         );
       }

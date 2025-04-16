@@ -11,7 +11,7 @@ import { AdminDashboardService } from '../../services/admin-dashboard.service';
 })
 export class StudentComponent implements OnInit {
 [x: string]: any;
-  isFormVisible: boolean = true;
+  isFormVisible: boolean = false;
   editingStudent: any | null = null;
 
   students: any[] = [];

@@ -1,83 +1,84 @@
 <div class="student-header">
-  <h1>Student Management</h1>
-  <button class="add-btn" (click)="openForm()">+ Add Student</button>
-</div>
-
-<section class="student-table">
-  <div class="table-row table-head">
-      <div>UID</div>
-      <div>Name</div>
-      <div>Email</div>
-      <div>Batch</div>
-      <div style="text-align: center;">Actions</div>
+    <h1>Student Management</h1>
+    <button class="add-btn" (click)="openForm()">+ Add Student</button>
   </div>
-  <hr />
-  <div class="table-row" *ngFor="let student of students">
-      <div>{{ student.uid }}</div>
-      <div>{{ student.name }}</div>
-      <div>{{ student.email }}</div>
-      <div>{{ student.batch.batchName }}</div>
-      <div class="table-actions">
-          <button class="edit-btn" (click)="openForm(student)">Edit</button>
-          <button class="delete-btn" (click)="onDelete(student.uid)">Delete</button>
-      </div>
-  </div>
-</section>
-
-<!-- Modal Form -->
-<section class="form-container" *ngIf="isFormVisible">
-  <div class="form-modal">
+  
+  <section class="table-container">
+    <table class="student-table fade-in">
+      <thead>
+        <tr>
+          <th>UID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Batch</th>
+          <th style="text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students">
+          <td>{{ student.uid }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.batch.batchName }}</td>
+          <td class="table-actions">
+            <button class="edit-btn" (click)="openForm(student)">Edit</button>
+            <button class="delete-btn" (click)="onDelete(student.uid)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <!-- Modal Form -->
+  <section class="form-container fade" *ngIf="isFormVisible">
+    <div class="form-modal fade-in">
       <div class="form-header">
-          <h2>{{ editingStudent ? 'Edit Student' : 'Add Student' }}</h2>
-          <button class="close-btn" (click)="closeForm()">×</button>
+        <h2>{{ editingStudent ? 'Edit Student' : 'Add Student' }}</h2>
+        <button class="close-btn" (click)="closeForm()">×</button>
       </div>
-      
+  
       <form class="student-form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-              <label>Name</label>
-              <input type="text" formControlName="name" placeholder="Enter Name" class="input-field" />
-          </div>
-
-          <div class="form-group">
-              <label>Email</label>
-              <input type="email" formControlName="email" placeholder="Enter Email" class="input-field" />
-          </div>
-
-          <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" formControlName="phone" placeholder="Enter Phone" class="input-field" />
-          </div>
-
-          <div class="form-group">
-              <label>Gender</label>
-              <select formControlName="gender" class="input-field">
-                  <option value="" disabled>Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-              </select>
-          </div>
-
-          <div class="form-group">
-              <label>Batch</label>
-              <select formControlName="batchName" class="input-field" >
-                <!-- <option *ngFor="let batch of batch" [value]="batch.batchname">
-                    {{ batch.batchname }} - {{ batch.venue }}
-                  </option> -->
-                  @for (item of batch; track $index) {
-                    <option [value]="item.batchName" [selected]="editingStudent && editingStudent.batch.batchName === item.batchName">
-                        {{ item.batchName }} - {{ item.venue }}
-                    </option>
-                  }
-              </select>
-          </div>
-
-
-
-          <div class="form-group submit-group">
-              <button type="submit" class="submit-btn" [disabled]="studentForm.invalid">
-                  {{ editingStudent ? 'Update' : 'Create' }}
-              </button>
-          </div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" formControlName="name" placeholder="Enter Name" class="input-field" />
+        </div>
+  
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="Enter Email" class="input-field" />
+        </div>
+  
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" formControlName="phone" placeholder="Enter Phone" class="input-field" />
+        </div>
+  
+        <div class="form-group">
+          <label>Gender</label>
+          <select formControlName="gender" class="input-field">
+            <option value="" disabled>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label>Batch</label>
+          <select formControlName="batchName" class="input-field">
+            @for (item of batch; track $index) {
+              <option [value]="item.batchName" [selected]="editingStudent && editingStudent.batch.batchName === item.batchName">
+                {{ item.batchName }} - {{ item.venue }}
+              </option>
+            }
+          </select>
+        </div>
+  
+        <div class="form-group submit-group">
+          <button type="submit" class="submit-btn" [disabled]="studentForm.invalid">
+            {{ editingStudent ? 'Update' : 'Create' }}
+          </button>
+        </div>
       </form>
-  </div>
-</section>
+    </div>
+  </section>
+  

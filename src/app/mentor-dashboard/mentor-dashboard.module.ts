@@ -11,6 +11,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { interceptors } from '../shared/interceptor';
 import { MentorServiceService } from './services/mentor-service.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminDashboardService } from '../admin-dashboard/services/admin-dashboard.service';
 
 
 @NgModule({
@@ -27,6 +28,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [provideHttpClient(withInterceptors(interceptors)), MentorServiceService]
+  providers: [provideHttpClient(withInterceptors(interceptors)), MentorServiceService,AdminDashboardService]
 })
 export class MentorDashboardModule { }

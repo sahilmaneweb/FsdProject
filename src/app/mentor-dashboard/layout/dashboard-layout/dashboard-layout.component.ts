@@ -11,6 +11,9 @@ export class DashboardLayoutComponent {
   constructor(private router:Router) { }
 
   logOut() {
+    alert("Logged Out Successfully...");
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.router.navigate(['/']);
   }
 }

@@ -16,7 +16,7 @@ export class MentorServiceService {
     return this.http.put(this.api+"api/admin/mentor/"+mentorId,payload)
   }
   changePassword(value: any) {
-    return this.http.put(this.api + "api/updatePassword", value);
+    return this.http.post(this.api + "api/updatePassword", value);
   }
 
   getMentorStudents(mentorId:string):Observable<any>{

@@ -45,7 +45,7 @@
     </div>
     <div class="user-container">
       <h2>User Password</h2>
-      <form [formGroup]="userForm">
+      <form [formGroup]="userForm" (ngSubmit)="changePassword()">
         <div class="form-group">
           <label>Username:</label>
           <input type="text" formControlName="username" >
@@ -58,7 +58,7 @@
           <label>New Password:</label>
           <input type="password" formControlName="newPassword" >
         </div>
-        <button type="button">Change Password</button>
+        <button type="submit">Change Password</button>
       </form>
     </div>
   </div>

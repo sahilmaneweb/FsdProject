@@ -17,8 +17,13 @@ export class StudentDashboardServiceService {
     return this.httpClient.put(this.apiUrl + "api/student/" + uid, payload);
   }
 
-  changePassword(payload: any): Observable<any> {
-    return this.httpClient.put(this.apiUrl + "api/updatePassword", payload);
+  changePassword(payload: any) {
+    return this.httpClient.post(this.apiUrl + "api/updatePassword", payload);
+  }
+
+
+  getAttendanceDashboard(){
+    return this.httpClient.get(this.apiUrl+"api/attendance/student/dashboard");
   }
 
   getGroupByStudent(uid:string){

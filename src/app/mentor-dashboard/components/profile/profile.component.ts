@@ -95,10 +95,13 @@ export class ProfileComponent {
     }
     
     changePassword(){
+      const payload = this.userForm.value;
+      payload['username'] = this.mentorId;
       if(this.userForm.valid){
-        this.mentorDashboard.changePassword(this.userForm.value).subscribe((data:any) => {
+        this.mentorDashboard.changePassword(payload).subscribe((data:any) => {
           alert('Password changed successfully!');
           this.userForm.reset();
+          this.userForm.get('username')?.setValue(this.mentorId);
         }
         );
       }

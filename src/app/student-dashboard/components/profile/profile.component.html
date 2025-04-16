@@ -41,7 +41,7 @@
   </div>
   <div class="user-container">
     <h2>User Password</h2>
-    <form [formGroup]="userForm">
+    <form [formGroup]="userForm" >
       <div class="form-group">
         <label>Username:</label>
         <input type="text" formControlName="username" >
@@ -54,7 +54,7 @@
         <label>New Password:</label>
         <input type="password" formControlName="newPassword" >
       </div>
-      <button type="button">Change Password</button>
+      <button type="button" (click)="changePassword()">Change Password</button>
     </form>
   </div>
 </div>

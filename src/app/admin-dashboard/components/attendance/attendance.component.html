@@ -1,43 +1,45 @@
-<div class="container">
-  <form [formGroup]="attendanceForm" class="form-controls">
-    <label>Select Batch:</label>
-    <select formControlName="batch">
-      <option *ngFor="let batch of batches" [value]="batch.batchName">{{ batch?.batchName }}</option>
+<div class="attendance-container">
+  <form [formGroup]="attendanceForm" (ngSubmit)="onLoad()">
+    <label for="batch">Batch:</label>
+    <select id="batch" formControlName="batch">
+      <option value="">Select Batch</option>
+      <option *ngFor="let b of batches" [value]="b.batchName">{{ b.batchName }}</option>
     </select>
 
-    <label>Select Month:</label>
-    <input type="month" formControlName="month" />
+    <label for="month">Month:</label>
+    <input type="month" id="month" formControlName="month" />
 
-    <button type="button" (click)="onLoad()">Load Attendance</button>
+    <button type="submit">Load Attendance</button>
+    <button type="button" (click)="clearForm()">Clear All</button>
+    <button type="button" (click)="saveAttendance()">Save</button>
   </form>
 
-  <div *ngIf="studentsAttendance.length > 0">
-    <table class="attendance-table">
-      <thead>
-        <tr>
-          <th>UID</th>
-          <th>Name</th>
-          <th *ngFor="let day of daysInMonth">{{ day }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of studentsAttendance">
-          <td>{{ student.uid }}</td>
-          <td>{{ student.name }}</td>
-          <td *ngFor="let day of daysInMonth">
-            <input
-              type="checkbox"
-              [checked]="student.attendanceByDay[day] === 'PRESENT'"
-              (change)="toggleAttendance(student, day)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="btns">
-      <button (click)="onClear()">Clear</button>
-      <button (click)="onSave()">Save</button>
-    </div>
+  <div *ngIf="selectedBatch && selectedMonth">
+    <form *ngIf="studentAttendanceForm" [formGroup]="studentAttendanceForm">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>UID</th>
+              <th>Name</th>
+              <th *ngFor="let d of date">{{ d }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let uid of uids">
+              <td>{{ uid.uid }}</td>
+              <td>{{ uid.name }}</td>
+              <td *ngFor="let d of dateList">
+                <input
+                  type="checkbox"
+                  [formControlName]="uid.uid + '_' + d"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
   </div>
+  
 </div>
