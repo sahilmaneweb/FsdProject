@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MentorServiceService {
-  private api:string = 'http://localhost:8081/';
+  private api:string = 'https://fsd-springboot.onrender.com/';
   constructor(private http:HttpClient) { }
   
   getMentorProfile(mentorId:string):Observable<any>{

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AdminDashboardService {
 
-  private apiUrl = 'http://localhost:8081/';
+  private apiUrl = 'https://fsd-springboot.onrender.com/';
 
   constructor(private httpClient: HttpClient) { }
   
