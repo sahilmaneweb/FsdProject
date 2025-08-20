@@ -8,20 +8,32 @@ import { MentorServiceService } from '../../services/mentor-service.service';
   styleUrl: './group.component.css'
 })
 export class GroupComponent implements OnInit {
-  mentorId:string = "";
+  mentorId: string = "";
   groups: any[] = [];
+  isModalVisible: boolean = false;
+  selectedGroup: any = null;
 
-  constructor(private mentorService:MentorServiceService){}
+  constructor(private mentorService: MentorServiceService) { }
 
   ngOnInit(): void {
-      this.mentorId = localStorage.getItem('username') || '';
-      this.loadGroups();
-  }
-  loadGroups() {
-    this.mentorService.getGroupsOfMentor(this.mentorId).subscribe((res:any)=>{
-      console.log(res.data);
-      this.groups = res.data;
-    })
+    this.mentorId = localStorage.getItem('username') || '';
+    this.loadGroups();
   }
 
+  loadGroups() {
+    this.mentorService.getGroupsOfMentor(this.mentorId).subscribe((res: any) => {
+      console.log(res.data);
+      this.groups = res.data;
+    });
+  }
+
+  openGroupModal(group: any) {
+    this.selectedGroup = group;
+    this.isModalVisible = false;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+    this.selectedGroup = null;
+  }
 }

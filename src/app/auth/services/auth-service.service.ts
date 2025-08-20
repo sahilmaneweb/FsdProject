@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthServiceService {
 
   constructor(private httpClient:HttpClient) { }
-  private apiUrl = 'https://fsd-springboot.onrender.com/';
+  private apiUrl = 'http://localhost:8081/';
 
   loginUser(payload:any){
     return this.httpClient.post(this.apiUrl+'api/login',payload);

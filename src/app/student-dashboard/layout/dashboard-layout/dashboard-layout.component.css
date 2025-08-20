@@ -1,63 +1,129 @@
-.admin-navbar{
-    display: flex;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f6f9;
+  overflow: hidden; /* Prevents the entire page from scrolling */
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Main Content Area */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Top Navbar */
+.navbar {
+  background-color: #ffffff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0; /* Prevents the navbar from shrinking */
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4a69bd;
+}
+
+.navbar-right .logout-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar-right .logout-btn i {
+  font-size: 1.1em;
+}
+
+.navbar-right .logout-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Horizontal Navigation Bar */
+.horizontal-nav {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 30px;
+  flex-shrink: 0;
+}
+
+.horizontal-menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+
+.horizontal-menu li a {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #34495e;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.horizontal-menu li a:hover {
+  color: #4a69bd;
+  border-bottom: 3px solid #4a69bd;
+}
+
+.horizontal-menu li a.active {
+  color: #4a69bd;
+  border-bottom: 3px solid #4a69bd;
+}
+
+/* Main Content Box */
+.content-box {
+  flex-grow: 1;
+  overflow: auto; /* This handles all scrolling for your routed components */
+  padding: 30px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 15px;
+  }
+  .horizontal-nav {
+    padding: 0 15px;
+  }
+  .horizontal-menu {
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
-    align-items: center;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    padding-bottom: 5px;
-    background-color: #fff;
-    margin: 0;
-    list-style-type: none;
-}
-.admin-navbar li{
-    text-align: center;
-    width: 150px;
-    overflow: hidden;
-    border-radius: 5px;
-    font-size: 16px ;
-    font-weight:600;
-    transition: all 0.3s ease-in-out;
-}
-li a{
-    padding: 10px 20px;
-    display: block;
-    color: black;
-    text-decoration: none;
-}
-li a.active{
-    background-color: #c7c7c7;
-}
-.admin-navbar li:hover{
-    background-color: #f1f1f1;
-    cursor: pointer;
-}
-.box{
-    margin: 0 auto;
-    width: 96%;
-}
-.navbar{
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-}
-.logo{
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-}
-button{
-    background-color: rgb(250, 29, 29);
-    color: #fff;
-    padding: 7px 18px;
-    border: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-button:hover{
-    background-color: rgb(175, 0, 0);
+    gap: 5px;
+  }
+  .horizontal-menu li a {
+    padding: 10px 15px;
+  }
+  .content-box {
+    padding: 15px;
+  }
 }

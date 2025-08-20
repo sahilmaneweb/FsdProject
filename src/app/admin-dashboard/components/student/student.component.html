@@ -1,84 +1,125 @@
-<div class="student-header">
+<div class="student-page-card">
+  <header class="student-header">
     <h1>Student Management</h1>
-    <button class="add-btn" (click)="openForm()">+ Add Student</button>
-  </div>
-  
-  <section class="table-container">
-    <table class="student-table fade-in">
-      <thead>
-        <tr>
-          <th>UID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Batch</th>
-          <th style="text-align: center;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of students">
-          <td>{{ student.uid }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.batch.batchName }}</td>
-          <td class="table-actions">
-            <button class="edit-btn" (click)="openForm(student)">Edit</button>
-            <button class="delete-btn" (click)="onDelete(student.uid)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-  
-  <!-- Modal Form -->
-  <section class="form-container fade" *ngIf="isFormVisible">
-    <div class="form-modal fade-in">
-      <div class="form-header">
-        <h2>{{ editingStudent ? 'Edit Student' : 'Add Student' }}</h2>
-        <button class="close-btn" (click)="closeForm()">×</button>
+    <button class="add-btn" (click)="openForm()">
+      <i class="fas fa-plus-circle"></i> Add Student
+    </button>
+  </header>
+
+  <div class="table-scroll-container">
+    <div class="student-grid-container" *ngIf="students.length > 0; else noStudents">
+      <div class="grid-header">
+        <div class="grid-item">UID</div>
+        <div class="grid-item">Name</div>
+        <div class="grid-item">Email</div>
+        <div class="grid-item">Phone</div>
+        <div class="grid-item">Gender</div>
+        <div class="grid-item">Batch</div>
+        <div class="grid-item text-center">Actions</div>
       </div>
-  
-      <form class="student-form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" formControlName="name" placeholder="Enter Name" class="input-field" />
-        </div>
-  
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" formControlName="email" placeholder="Enter Email" class="input-field" />
-        </div>
-  
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" formControlName="phone" placeholder="Enter Phone" class="input-field" />
-        </div>
-  
-        <div class="form-group">
-          <label>Gender</label>
-          <select formControlName="gender" class="input-field">
-            <option value="" disabled>Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-  
-        <div class="form-group">
-          <label>Batch</label>
-          <select formControlName="batchName" class="input-field">
-            @for (item of batch; track $index) {
-              <option [value]="item.batchName" [selected]="editingStudent && editingStudent.batch.batchName === item.batchName">
-                {{ item.batchName }} - {{ item.venue }}
-              </option>
-            }
-          </select>
-        </div>
-  
-        <div class="form-group submit-group">
-          <button type="submit" class="submit-btn" [disabled]="studentForm.invalid">
-            {{ editingStudent ? 'Update' : 'Create' }}
+
+      <div class="student-grid-row fade-in-row" *ngFor="let student of students; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
+        <div class="grid-item" data-label="UID">{{ student.uid }}</div>
+        <div class="grid-item" data-label="Name">{{ student.name }}</div>
+        <div class="grid-item" data-label="Email">{{ student.email }}</div>
+        <div class="grid-item" data-label="Phone">{{ student.phone }}</div>
+        <div class="grid-item" data-label="Gender">{{ student.gender | titlecase }}</div>
+        <div class="grid-item" data-label="Batch">{{ student.batch?.batchName }}</div>
+        <div class="grid-item text-center" data-label="Actions">
+          <button class="edit-btn" (click)="openForm(student)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" (click)="onDelete(student.uid)">
+            <i class="fas fa-trash-alt"></i>
           </button>
         </div>
-      </form>
+      </div>
     </div>
-  </section>
-  
+
+    <ng-template #noStudents>
+      <div class="no-students-found">
+        <i class="fas fa-sad-tear sad-icon"></i>
+        <h2>No Students Found</h2>
+        <p>It looks like there are no students registered yet. Click the button above to add your first student!</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<section class="form-container" [class.visible]="isFormVisible">
+  <div class="form-modal" [class.fade-in]="isFormVisible" [class.fade-out]="!isFormVisible">
+    <div class="form-header">
+      <h2>{{ editingStudent ? 'Edit Student' : 'Add Student' }}</h2>
+      <button class="close-btn" (click)="closeForm()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form class="student-form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" formControlName="name" placeholder="Enter Student Name" class="input-field"
+          [class.is-invalid]="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" />
+        <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="error-message">
+          <span *ngIf="studentForm.get('name')?.hasError('required')">Name is required.</span>
+          <span *ngIf="studentForm.get('name')?.hasError('minlength')">Name must be at least 3 characters.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="Enter Student Email" class="input-field"
+          [class.is-invalid]="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" />
+        <div *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" class="error-message">
+          <span *ngIf="studentForm.get('email')?.hasError('required')">Email is required.</span>
+          <span *ngIf="studentForm.get('email')?.hasError('email')">Please enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" formControlName="phone" placeholder="Enter Student Phone (10 digits)"
+          class="input-field" [class.is-invalid]="studentForm.get('phone')?.invalid && studentForm.get('phone')?.touched" />
+        <div *ngIf="studentForm.get('phone')?.invalid && studentForm.get('phone')?.touched" class="error-message">
+          <span *ngIf="studentForm.get('phone')?.hasError('required')">Phone number is required.</span>
+          <span *ngIf="studentForm.get('phone')?.hasError('pattern')">Please enter a valid 10-digit phone number.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender" class="input-field"
+          [class.is-invalid]="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched">
+          <option value="" disabled selected>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div *ngIf="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched" class="error-message">
+          <span>Gender is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="batchName">Batch</label>
+        <select id="batchName" formControlName="batchName" class="input-field"
+          [class.is-invalid]="studentForm.get('batchName')?.invalid && studentForm.get('batchName')?.touched">
+          <option value="" disabled selected>Select Batch</option>
+          @for (item of batch; track $index) {
+          <option [value]="item.batchName">
+            {{ item.batchName }} - {{ item.venue }}
+          </option>
+          }
+        </select>
+        <div *ngIf="studentForm.get('batchName')?.invalid && studentForm.get('batchName')?.touched" class="error-message">
+          <span>Batch is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group submit-group">
+        <button type="submit" class="submit-btn" [disabled]="studentForm.invalid">
+          {{ editingStudent ? 'Update Student' : 'Add Student' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

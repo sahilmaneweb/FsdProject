@@ -1,26 +1,25 @@
-<div class="navbar">
-    <div class="logo">
-        FSD-Student
-    </div>
-    <div>
-        <button (click)="logOut()" type="button">
-            Log Out
+<div class="dashboard-container">
+  <main class="main-content">
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo">FSD-Student</div>
+      </div>
+      <div class="navbar-right">
+        <button (click)="logOut()" type="button" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Log Out
         </button>
+      </div>
+    </header>
+
+    <nav class="horizontal-nav">
+      <ul class="horizontal-menu">
+        <li><a routerLink="profile" routerLinkActive="active">Profile</a></li>
+        <li><a routerLink="attendance" routerLinkActive="active">Attendance</a></li>
+        <li><a routerLink="group" routerLinkActive="active">Group</a></li>
+      </ul>
+    </nav>
+    <div class="content-box">
+      <router-outlet></router-outlet>
     </div>
-</div>
-<ul class="admin-navbar">
-    <li>
-        <a routerLink="profile" routerLinkActive="active">Profile</a>
-    </li>
-    <li>
-        <a routerLink="attendance" routerLinkActive="active">Attendance</a>
-    </li>
-    <li>
-        <a routerLink="group" routerLinkActive="active">group</a>
-    </li>
-    
-    
-</ul>
-<div class="box">
-    <router-outlet></router-outlet>
+  </main>
 </div>

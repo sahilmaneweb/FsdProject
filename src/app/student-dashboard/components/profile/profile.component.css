@@ -1,30 +1,65 @@
+/* Main Layout Container */
 .container {
   display: flex;
-  gap: 30px; /* Increased gap between containers */
-  padding: 30px; /* Added padding around the main container */
-  
-  min-height: 100vh;
-  justify-content: center;
-  align-items: start;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  min-height: 100%;
 }
 
+/* Toggle Buttons */
+.toggle-buttons {
+  display: flex;
+  margin-bottom: 25px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn {
+  padding: 12px 25px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.3s ease;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.toggle-btn.active {
+  background-color: #4a69bd;
+  color: white;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Containers for Profile and Password Forms */
 .profile-container,
 .user-container {
-  width: 400px;
+  width: 100%;
+  max-width: 500px;
   padding: 30px;
-  border: 1px solid #aed6f1; /* Light blue border */
-  border-radius: 12px; /* More rounded corners */
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle box shadow */
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
 }
 
 h2 {
   color: #2c3e50;
   text-align: center;
   margin-bottom: 25px;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.8em;
 }
 
+/* Form Groups */
 .form-group {
   margin-bottom: 20px;
 }
@@ -37,65 +72,89 @@ label {
   font-size: 0.95em;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-  width: calc(100% - 16px); /* Adjust width for padding */
-  padding: 10px;
+/* Input and Select Fields */
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
   border: 1px solid #d0d0d0;
   border-radius: 6px;
   font-size: 1em;
   color: #333;
-  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
-  background-color: #f8f8f8; /* Light background for inputs */
+  background-color: #f8f8f8;
+  box-sizing: border-box;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus {
-  border-color: #3498db; /* Focus color */
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+.input-field:focus {
+  border-color: #4a69bd;
+  box-shadow: 0 0 8px rgba(74, 105, 189, 0.2);
+  background-color: white;
 }
 
-select {
-  appearance: none; /* Remove default arrow */
+select.input-field {
+  appearance: none;
   background-image: url('data:image/svg+xml;utf8,<svg fill="%23777" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
-  background-position: right 10px center;
+  background-position: right 15px center;
   background-size: 16px;
+  padding-right: 40px;
 }
 
-button {
+/* Button Styles */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.submit-btn,
+.cancel-btn,
+.save-btn {
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-button:first-of-type {
-  background: #6c757d; /* Gray for "Edit/Cancel" */
+.cancel-btn {
+  background: #6c757d;
   color: white;
-  margin-right: 10px;
 }
 
-button:first-of-type:hover {
+.save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.submit-btn {
+  background: #007bff;
+  color: white;
+  width: 100%;
+  justify-content: center;
+}
+
+.cancel-btn:hover {
   background: #5a6268;
   transform: translateY(-1px);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
 }
 
-button[type="submit"] {
-  background: #007bff; /* Blue for "Save" and "Change Password" */
-  color: white;
+.save-btn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
 }
 
-button[type="submit"]:hover {
+.submit-btn:hover {
   background: #0056b3;
   transform: translateY(-1px);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);

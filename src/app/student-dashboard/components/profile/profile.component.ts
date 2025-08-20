@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   studentProfile:any = {};
   uid:string ='';
   userForm: FormGroup;
+  showProfileSection: boolean = true; // New property to toggle sections
 
   constructor(private fb: FormBuilder, private studentDashboard: StudentDashboardServiceService) {
     this.profileForm = this.fb.group({
@@ -34,9 +35,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.loadProfileData();
-      this.userForm.get('username')?.setValue(this.uid);
-      this.profileForm.disable();
+    this.loadProfileData();
+    this.userForm.get('username')?.setValue(this.uid);
+    this.profileForm.disable();
   }
 
   loadProfileData(){
@@ -58,8 +59,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  
-
   toggleEdit() {
     this.isEditing = !this.isEditing;
     if (!this.isEditing) {
@@ -73,34 +72,44 @@ export class ProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    
-      let payload = this.profileForm.value;
-      payload = {
-        name: payload.name,
-        email: payload.email,
-        phone: payload.phone,
-        gender: payload.gender,
-        address: payload.address,
-        batchName: payload.batchName
-      };
-      this.studentDashboard.updateProfile(payload, this.uid).subscribe(() => {
-        alert('Profile saved successfully!');
-        this.toggleEdit();
-        this.loadProfileData();
-      });
-    }
-    
-    changePassword(){
-      const payload = this.userForm.value;
-      payload['username'] = this.uid;
-      if(this.userForm.valid){
-        this.studentDashboard.changePassword(payload).subscribe((data:any) => {
-          alert("Passwor dchanged successfully...");
-          this.userForm.reset();
-          this.userForm.get('username')?.setValue(this.uid);
-        }
-        );
-      }
-    }
+    let payload = this.profileForm.value;
+    payload = {
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      gender: payload.gender,
+      address: payload.address,
+      batchName: payload.batchName
+    };
+    this.studentDashboard.updateProfile(payload, this.uid).subscribe(() => {
+      alert('Profile saved successfully!');
+      this.toggleEdit();
+      this.loadProfileData();
+    });
+  }
   
+  changePassword(){
+    const payload = this.userForm.value;
+    payload['username'] = this.uid;
+    if(this.userForm.valid){
+      this.studentDashboard.changePassword(payload).subscribe((data:any) => {
+        alert("Password changed successfully...");
+        this.userForm.reset();
+        this.userForm.get('username')?.setValue(this.uid);
+      }
+      );
+    }
+  }
+
+  // New method to toggle between sections
+  toggleSection() {
+    this.showProfileSection = !this.showProfileSection;
+    if (this.showProfileSection) {
+      this.userForm.reset();
+      this.userForm.get('username')?.setValue(this.uid);
+    } else {
+      this.profileForm.disable();
+      this.isEditing = false;
+    }
+  }
 }

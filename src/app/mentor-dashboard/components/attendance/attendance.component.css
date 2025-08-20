@@ -1,62 +1,253 @@
-.attendance-container {
-    max-width: 100%;
-    padding: 16px;
-    font-family: Arial, sans-serif;
+/* Container for the entire attendance page */
+.attendance-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Header with the form controls */
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.attendance-header h1 {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0;
+  color: #34495e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.attendance-header h1 i {
+  color: #4a69bd;
+}
+
+.attendance-header form {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.attendance-header label {
+  font-size: 0.9em;
+  color: #555;
+  font-weight: 500;
+}
+
+.attendance-header select,
+.attendance-header input[type="month"] {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.attendance-header select:focus,
+.attendance-header input[type="month"]:focus {
+  border-color: #4a69bd;
+  outline: none;
+  box-shadow: 0 0 5px rgba(74, 105, 189, 0.2);
+}
+
+.load-btn {
+  padding: 10px 15px;
+  background-color: #4a69bd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-btn:hover {
+  background-color: #3b57a0;
+}
+
+/* Main content area (table and actions) */
+.attendance-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.clear-btn, .save-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clear-btn {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.clear-btn:hover {
+  background-color: #ec971f;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+/* Table styling with sticky header and column */
+.table-wrapper {
+  flex-grow: 1;
+  overflow: auto; /* Enables both horizontal and vertical scrolling */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Forces horizontal overflow if the container is less than 800px */
+}
+
+.attendance-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #e9ecef;
+  color: #34495e;
+  padding: 12px 8px;
+  font-weight: 600;
+  border: 1px solid #e0e0e0;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.attendance-table th, .attendance-table td {
+  padding: 12px 8px;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid #e0e0e0;
+  min-width: 40px; /* Adjust column width */
+}
+
+/* Sticky column for UID and Name */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #ffffff;
+  min-width: 80px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.sticky-col-name {
+  position: sticky;
+  left: 81px; /* Position next to the UID column */
+  z-index: 1;
+  background-color: #ffffff;
+  min-width: 120px;
+  text-align: left;
+}
+
+/* Fix for sticky cells at the intersection */
+.attendance-table thead th.sticky-col,
+.attendance-table thead th.sticky-col-name {
+  z-index: 3;
+}
+
+/* Checkbox styling */
+.attendance-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #28a745;
+}
+
+.attendance-table td.present {
+  background-color: #d4edda; /* Light green background for present status */
+  transition: background-color 0.2s ease;
+}
+
+.no-attendance-data {
+  text-align: center;
+  padding: 50px 20px;
+  color: #7f8c8d;
+}
+
+.no-attendance-data .sad-icon {
+  font-size: 5em;
+  color: #95a5a6;
+  margin-bottom: 20px;
+}
+
+.no-attendance-data h2 {
+  font-size: 2em;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.no-attendance-data p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  color: #7f8c8d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .attendance-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  form {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
+  .attendance-header form {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
-  
-  label {
-    font-weight: bold;
+  .attendance-header .form-group {
+    width: 100%;
+    gap: 5px;
   }
-  
-  input[type="month"],
-  select {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+  .attendance-header button {
+    width: 100%;
   }
-  
-  button {
-    padding: 6px 12px;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0d47a1;
-  }
-  
-  .table-wrapper {
-    overflow-x: auto;
-    max-width: 100%;
-  }
-  
-  table {
-    width: max-content;
-    border-collapse: collapse;
-    min-width: 600px;
-  }
-  
-  th, td {
-    border: 1px solid #ccc;
-    padding: 6px;
-    text-align: center;
-    white-space: nowrap;
-  }
-  
-  input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-  }
-  
+}

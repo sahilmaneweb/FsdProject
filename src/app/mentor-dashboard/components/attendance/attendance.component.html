@@ -1,46 +1,68 @@
-<div class="attendance-container">
+<div class="attendance-card">
+  <div class="attendance-header">
+    <h1><i class="fas fa-calendar-check"></i> Student Attendance</h1>
     <form [formGroup]="attendanceForm" (ngSubmit)="onLoad()">
-      <label for="batch">Batch:</label>
-      <select id="batch" formControlName="batch">
-        <option value="">Select Batch</option>
-        <option *ngFor="let b of batches" [value]="b.batchName">{{ b.batchName }}</option>
-      </select>
-  
-      <label for="month">Month:</label>
-      <input type="month" id="month" formControlName="month" />
-  
-      <button type="submit">Load Attendance</button>
-      <button type="button" (click)="clearForm()">Clear All</button>
-      <button type="button" (click)="saveAttendance()">Save</button>
+      <div class="form-group">
+        <label for="batch">Batch:</label>
+        <select id="batch" formControlName="batch">
+          <option value="">Select Batch</option>
+          <option *ngFor="let b of batches" [value]="b.batchName">{{ b.batchName }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="month">Month:</label>
+        <input type="month" id="month" formControlName="month" />
+      </div>
+
+      <button type="submit" class="load-btn">
+        <i class="fas fa-search"></i> Load
+      </button>
     </form>
-  
-    <div *ngIf="selectedBatch && selectedMonth">
-      <form *ngIf="studentAttendanceForm" [formGroup]="studentAttendanceForm">
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>UID</th>
-                <th>Name</th>
-                <th *ngFor="let d of date">{{ d }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let uid of uids">
-                <td>{{ uid.uid }}</td>
-                <td>{{ uid.name }}</td>
-                <td *ngFor="let d of dateList">
-                  <input
-                    type="checkbox"
-                    [formControlName]="uid.uid + '_' + d"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </form>
-    </div>
-    
   </div>
-  
+
+  <div class="attendance-content" *ngIf="selectedBatch && selectedMonth; else noData">
+    <div class="action-buttons">
+      <button type="button" class="clear-btn" (click)="clearForm()">
+        <i class="fas fa-eraser"></i> Clear All
+      </button>
+      <button type="button" class="save-btn" (click)="saveAttendance()">
+        <i class="fas fa-save"></i> Save
+      </button>
+    </div>
+
+    <form *ngIf="studentAttendanceForm" [formGroup]="studentAttendanceForm">
+      <div class="table-wrapper">
+        <table class="attendance-table">
+          <thead>
+            <tr>
+              <th class="sticky-col">UID</th>
+              <th class="sticky-col-name">Name</th>
+              <th *ngFor="let d of date">{{ d }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of uids">
+              <td class="sticky-col">{{ student.uid }}</td>
+              <td class="sticky-col-name">{{ student.name }}</td>
+              <td *ngFor="let d of dateList" [ngClass]="{'present': studentAttendanceForm.get(student.uid + '_' + d)?.value}" (click)="toggleAttendance(student.uid, d)">
+                <input
+                  type="checkbox"
+                  [formControlName]="student.uid + '_' + d"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #noData>
+    <div class="no-attendance-data">
+      <i class="fas fa-calendar-alt sad-icon"></i>
+      <h2>No Attendance Data Loaded</h2>
+      <p>Select a batch and month to load student attendance records.</p>
+    </div>
+  </ng-template>
+</div>

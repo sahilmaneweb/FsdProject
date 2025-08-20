@@ -1,26 +1,40 @@
-<div class="container">
+<main class="page-container">
+  <div class="main-title-container">
+    <h1>FSD Management System</h1>
+  </div>
+  <div class="container">
     <div class="card">
       <h2>Login</h2>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <input type="text" formControlName="username" placeholder="UID" required>
-        <ul class="error-message">
-          <li *ngIf="loginForm.get('uid')?.hasError('required') && loginForm.get('uid')?.touched">
-            UID is required.
-          </li>
-          <li *ngIf="loginForm.get('uid')?.hasError('minlength') && loginForm.get('uid')?.touched">
-            UID must be at least 3 characters long.
-          </li>
-        </ul>
-        <input type="password" formControlName="password" placeholder="Password" required>
-        <ul class="error-message">
-          <li *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
-            Password is required.
-          </li>
-          <li *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">
-            Password must be at least 6 characters long.
-          </li>
-        </ul>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" formControlName="username" placeholder="Enter your username" required>
+          <ul class="error-message" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            <li *ngIf="loginForm.get('username')?.hasError('required')">
+              Username is required.
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" placeholder="Enter your password" required>
+          <ul class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <li *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is required.
+            </li>
+            <li *ngIf="loginForm.get('password')?.hasError('minlength')">
+              Password must be at least 10 characters long.
+            </li>
+          </ul>
+        </div>
+
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
       </form>
     </div>
   </div>
+  <footer>
+    <p>Made with ❤️ by Sahil</p>
+    <p>&copy; 2025 FSD Management System. All rights reserved.</p>
+  </footer>
+</main>

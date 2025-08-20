@@ -1,6 +1,6 @@
 {
     "/api":{
-        "target" : "https://fsd-springboot.onrender.com/",
+        "target" : "http://localhost:8081/",
         "secure": "false",
         "changeOrigin": true
     }

@@ -1,80 +1,102 @@
-<div class="group-header">
-  <h1>Group Management</h1>
-  <button class="add-btn" (click)="openForm()">+ Add Group</button>
+<div class="group-page-card">
+  <header class="group-header">
+    <h1>Group Management</h1>
+    <button class="add-btn" (click)="openForm()">
+      <i class="fas fa-plus-circle"></i> Add Group
+    </button>
+  </header>
+
+  <div class="table-scroll-container">
+    <div class="group-grid-container" *ngIf="groups.length > 0; else noGroups">
+      <div class="grid-header">
+        <div class="grid-item">Group ID</div>
+        <div class="grid-item">Title | Description</div>
+        <div class="grid-item">Batch</div>
+        <div class="grid-item text-center">Actions</div>
+      </div>
+
+      <div class="group-grid-row fade-in-row" *ngFor="let group of groups; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
+        <div class="grid-item" data-label="Group ID">{{ group.groupId }}</div>
+        <div class="grid-item" data-label="Project">{{ group.projectTitle }} <br> {{group.projectDescription}} </div>
+        <div class="grid-item" data-label="Batch">{{ group.batch?.batchName }}</div>
+        <div class="grid-item text-center" data-label="Actions">
+          <button class="edit-btn" (click)="editGroup(group.groupId)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteGroup(group.groupId)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noGroups>
+      <div class="no-groups-found">
+        <i class="fas fa-users-slash sad-icon"></i>
+        <h2>No Groups Found</h2>
+        <p>It looks like there are no groups registered yet. Click the button above to add your first group!</p>
+      </div>
+    </ng-template>
+  </div>
 </div>
 
-<section class="group-table">
-  <div class="table-row table-head">
-    <div>Group ID</div>
-    <div>Title | Description</div>
-    <div>Batch</div>
-    <div style="text-align: center;">Action</div>
-  </div>
-
-  <hr />
-  <div class="table-row" *ngFor="let group of groups; let i = index">
-    <div>{{ group.groupId }}</div>
-    <div>{{ group.projectTitle }} <br> {{group.projectDescription}} </div>
-    <div>
-      {{group.batch.batchName}}
-    </div>
-    <div class="table-actions">
-      <button class="edit-btn" (click)="editGroup(group.groupId)">Edit</button>
-      <button class="delete-btn" (click)="deleteGroup(group.groupId)">Delete</button>
-    </div>
-  </div>
-</section>
-
-<section class="form-container" *ngIf="isFormVisible">
-  <div class="form-modal">
+<section class="form-container" [class.visible]="isFormVisible">
+  <div class="form-modal" [class.fade-in]="isFormVisible" [class.fade-out]="!isFormVisible">
     <div class="form-header">
       <h2>{{ editingGroup !== null ? 'Edit Group' : 'Add Group' }}</h2>
-      <button class="close-btn" (click)="closeForm()">×</button>
+      <button class="close-btn" (click)="closeForm()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
 
     <form [formGroup]="groupForm" (ngSubmit)="submitForm()">
-      
       <div class="form-group">
-        <label>Title</label>
-        <input type="text" formControlName="projectTitle" class="input-field" placeholder="Enter Title" />
-      </div>
-      
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" formControlName="projectDescription" class="input-field" placeholder="Enter Description" />
-      </div>
-      
-      <div class="form-group">
-        <label>Batch</label>
-        <select  formControlName="batchName" class="input-field">
-          <!-- <option *ngFor="let batch of batch" [value]="batch.batchname">
-              {{ batch.batchname }} - {{ batch.venue }}
-            </option> -->
-          <option value="" disabled>Select Batch</option>
-            @for (item of batch; track $index) {
-              <option selected [value]="item.batchName" [selected]="editingGroup && editingGroup.batchName === item.batchName">
-                  {{ item?.batchName }} - {{ item?.venue }}
-              </option>
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-      <label>Select Student :</label>
-      <div class="student-list-box" *ngIf="students.length > 0">
-        <div *ngFor="let student of students" class="student-list">
-          <input type="checkbox" [value]="student.uid" (change)="toggleStudentSelection(student.uid)" [checked]="isStudentSelected(student.uid)" /> {{student.uid}} - {{ student.name }}
+        <label for="projectTitle">Title</label>
+        <input type="text" id="projectTitle" formControlName="projectTitle" class="input-field" placeholder="Enter Project Title"
+          [class.is-invalid]="groupForm.get('projectTitle')?.invalid && groupForm.get('projectTitle')?.touched" />
+        <div *ngIf="groupForm.get('projectTitle')?.invalid && groupForm.get('projectTitle')?.touched" class="error-message">
+          <span>Project Title is required.</span>
         </div>
       </div>
-      <div *ngIf="students.length === 0" class="no-students">
-        <p>No Students in this batch to show</p>
+
+      <div class="form-group">
+        <label for="projectDescription">Description</label>
+        <input type="text" id="projectDescription" formControlName="projectDescription" class="input-field" placeholder="Enter Project Description"
+          [class.is-invalid]="groupForm.get('projectDescription')?.invalid && groupForm.get('projectDescription')?.touched" />
+        <div *ngIf="groupForm.get('projectDescription')?.invalid && groupForm.get('projectDescription')?.touched" class="error-message">
+          <span>Project Description is required.</span>
+        </div>
       </div>
-      
-    </div>
+
+      <div class="form-group">
+        <label for="batchName">Batch</label>
+        <select id="batchName" formControlName="batchName" class="input-field"
+          [class.is-invalid]="groupForm.get('batchName')?.invalid && groupForm.get('batchName')?.touched">
+          <option value="" disabled selected>Select Batch</option>
+          <option *ngFor="let item of batch; let idx = index" [value]="item.batchName">
+            {{ item?.batchName }} - {{ item?.venue }}
+          </option>
+        </select>
+        <div *ngIf="groupForm.get('batchName')?.invalid && groupForm.get('batchName')?.touched" class="error-message">
+          <span>Batch is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Select Students :</label>
+        <div class="student-list-box">
+          <div *ngFor="let student of students" class="student-list">
+            <input type="checkbox" [value]="student.uid" (change)="toggleStudentSelection(student.uid)" [checked]="isStudentSelected(student.uid)" /> {{student.uid}} - {{ student.name }}
+          </div>
+          <div *ngIf="students.length === 0" class="no-students">
+            <p>No Students in this batch to show</p>
+          </div>
+        </div>
+      </div>
 
       <div class="form-group submit-group">
         <button type="submit" class="submit-btn" [disabled]="groupForm.invalid">
-          {{ editingGroup !== null ? 'Update' : 'Create' }}
+          {{ editingGroup !== null ? 'Update Group' : 'Create Group' }}
         </button>
       </div>
     </form>

@@ -1,53 +1,103 @@
+/* Main Layout Container */
 .group-container {
-  padding: 30px; /* Increased padding */
-  max-width: 1200px;
-  margin: 30px auto; /* Added top/bottom margin */
-  border-radius: 16px; /* More rounded corners */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Enhanced shadow */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
+/* Page Header */
+.group-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.group-page-header h1 {
+  font-size: 2em;
+  font-weight: 600;
+  color: #34495e;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-page-header h1 i {
+  color: #4a69bd;
+}
+
+/* Wrapper for Content (Students, Project, Mentors) */
+.content-wrapper {
+  padding: 0 10px;
+}
+
+/* Group Info Section */
 .group-info {
   text-align: center;
-  margin-bottom: 30px; /* Increased margin */
+  margin-bottom: 30px;
 }
 
 .group-info h2 {
-  font-size: 32px; /* Slightly larger font */
-  color: #333; /* Darker text */
-  font-weight: bold; /* Stronger bold */
+  font-size: 2.5em;
+  color: #34495e;
+  font-weight: 600;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.group-info h2 i {
+  color: #4a69bd;
 }
 
 .group-info p {
   color: #777;
   font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
 }
 
+.group-info p i {
+  color: #6c757d;
+}
+
+/* Students Grid */
 .students-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly wider cards */
-  gap: 20px; /* Increased gap */
-  margin: 30px 0; /* Increased margin */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
 }
 
 .student-card {
-  background: #fff;
-  border-radius: 16px; /* More rounded corners */
-  padding: 20px; /* Increased padding */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Enhanced shadow */
-  transition: transform 0.3s ease-in-out; /* Smoother transition */
-  border: 1px solid #eee; /* Subtle border */
+  background: #fdfdfd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition */
+  border: 1px solid #e0e0e0;
 }
 
 .student-card:hover {
-  transform: translateY(-8px); /* More pronounced lift */
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12); /* Enhanced hover shadow */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .student-card h3 {
+  margin-top: 0;
   margin-bottom: 12px;
-  color: #333;
-  font-weight: bold;
+  color: #4a69bd;
+  font-weight: 600;
   font-size: 1.2em;
 }
 
@@ -55,6 +105,7 @@
   color: #555;
   margin-bottom: 6px;
   font-size: 0.95em;
+  line-height: 1.4;
 }
 
 .student-card strong {
@@ -62,60 +113,136 @@
   color: #333;
 }
 
+/* Project Details */
 .project-info {
-  background: #f9f9f9; /* Lighter background */
-  padding: 20px; /* Increased padding */
-  border-radius: 12px; /* More rounded corners */
-  margin: 30px 0; /* Increased margin */
-  border: 1px solid #eee; /* Subtle border */
+  background: #e9ecef;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+  border: 1px solid #d0d0d0;
 }
 
 .project-info h3 {
-  color: #007bff; /* Primary color */
-  font-weight: bold;
+  color: #007bff;
+  font-weight: 600;
   font-size: 1.3em;
-  margin-bottom: 10px;
+  margin: 0 0 10px 0;
 }
 
 .project-info p {
   color: #555;
-  line-height: 1.6; /* Improved readability */
+  line-height: 1.6;
+  margin: 0;
 }
 
+/* Mentors Section - Now a grid of cards */
 .mentors-section {
-  margin-top: 30px; /* Increased margin */
+  margin-top: 30px;
 }
 
 .mentors-section h3 {
   color: #333;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.2em;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.mentors-section table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px; /* More rounded corners */
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Enhanced shadow */
-  border: 1px solid #eee; /* Subtle border */
+.mentors-section h3 i {
+  color: #6c757d;
 }
 
-.mentors-section th,
-.mentors-section td {
-  padding: 14px 16px; /* Increased padding */
-  text-align: left;
-  border-bottom: 1px solid #eee; /* Lighter border */
+.mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 0;
 }
 
-.mentors-section th {
-  background-color: #007bff; /* Primary color */
-  color: white;
+.mentor-card {
+  background: #fdfdfd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.mentor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.mentor-icon {
+  font-size: 2.5em;
+  color: #6f42c1;
+  flex-shrink: 0;
+}
+
+.mentor-details {
+  flex-grow: 1;
+}
+
+.mentor-details h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #34495e;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.mentor-details p {
+  font-size: 0.95em;
+  color: #555;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.mentor-details p strong {
   font-weight: bold;
+  color: #333;
 }
 
-.mentors-section tr:hover {
-  background-color: #f5f5f5; /* Lighter hover background */
+/* No Group Assigned Message */
+.no-group-assigned-message {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: #7f8c8d;
+}
+
+.no-group-assigned-message .sad-icon {
+  font-size: 5em;
+  color: #95a5a6;
+  margin-bottom: 20px;
+}
+
+.no-group-assigned-message h2 {
+  font-size: 2em;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.no-group-assigned-message p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  color: #7f8c8d;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .group-info h2 {
+    font-size: 1.8em;
+  }
+  .students-grid,
+  .mentors-grid {
+    grid-template-columns: 1fr;
+  }
 }

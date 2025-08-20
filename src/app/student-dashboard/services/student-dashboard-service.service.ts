@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StudentDashboardServiceService {
-  private apiUrl = 'https://fsd-springboot.onrender.com/';
+  private apiUrl = 'http://localhost:8081/';
   constructor(private httpClient: HttpClient) { }
 
   getStudentProfile(uid: string) {

@@ -1,23 +1,65 @@
-<div class="mentors-section">
-    <h3>Groups</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>GroupId</th>
-          <th>Project Title</th>
-          <th>Project Description</th>
-          <th>Batch</th>
-          
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let group of groups">
-          <td>{{group?.groupId}}</td>
-          <td>{{group?.projectTitle}}</td>
-          <td>{{group?.projectDescription}}</td>
-          <td>{{group?.batch.batchName}}</td>
-          
-        </tr>
-      </tbody>
-    </table>
+<div class="groups-page-card">
+  <header class="groups-page-header">
+    <h1><i class="fas fa-users-cog"></i> My Groups</h1>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="groups-grid-container" *ngIf="groups.length > 0; else noGroups">
+      <div class="group-card fade-in-row" *ngFor="let group of groups; let i = index" [style.animation-delay]="(i * 0.05) + 's'" (click)="openGroupModal(group)">
+        <div class="group-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <div class="group-details">
+          <h3 data-label="Group ID"><strong>Group ID:</strong> {{ group?.groupId }}</h3>
+          <p data-label="Project Title">{{ group?.projectTitle }}</p>
+          <p data-label="Batch"><strong>Batch:</strong> {{ group?.batch?.batchName }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noGroups>
+      <div class="no-groups-found">
+        <i class="fas fa-users-slash sad-icon"></i>
+        <h2>No Groups Assigned to you.</h2>
+        <p>Please contact the administrator for group assignments.</p>
+      </div>
+    </ng-template>
   </div>
+</div>
+
+<section class="modal-container" [class.visible]="isModalVisible">
+  <div class="modal-content" [class.fade-in]="isModalVisible">
+    <header class="modal-header">
+      <h2>Group Details: {{ selectedGroup?.groupId }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
+    <div class="modal-body" *ngIf="selectedGroup">
+      <div class="details-section">
+        <h3><i class="fas fa-project-diagram"></i> Project Info</h3>
+        <p><strong>Title:</strong> {{ selectedGroup.projectTitle }}</p>
+        <p><strong>Description:</strong> {{ selectedGroup.projectDescription }}</p>
+      </div>
+      
+      <div class="details-section">
+        <h3><i class="fas fa-user-graduate"></i> Students</h3>
+        <div class="student-list">
+          <div *ngFor="let student of selectedGroup.students" class="student-item">
+            <span class="student-uid">{{ student.uid }}</span>
+            <span class="student-name">{{ student.name }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="details-section">
+        <h3><i class="fas fa-chalkboard-teacher"></i> Mentors</h3>
+        <div class="mentor-list">
+          <div *ngFor="let mentor of selectedGroup.mentors" class="mentor-item">
+            <span class="mentor-name">{{ mentor.name }}</span>
+            <span class="mentor-email">{{ mentor.email }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
